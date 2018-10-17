@@ -1,12 +1,14 @@
 /* eslint no-template-curly-in-string: "off" */
 
+const nodeExternals = require('webpack-node-externals')
+
 require('./config')
 const config = require('config')
 
 const isWin = /^win/i.test(process.platform)
 
 const nuxt = {
-  mode: 'spa', // 'universal',
+  mode: 'universal', // 'spa',
 
   env: {
     RECAPTCHA: config.get('recaptcha')
@@ -108,14 +110,21 @@ const nuxt = {
       ]
     },
     extractCSS: true,
-    extend (config, { isDev, isClient }) {
-      if (isDev && isClient) {
+    extend (config, { isDev }) {
+      if (process.client && isDev) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+      }
+      if (process.server) {
+        config.externals = [
+          nodeExternals({
+            whitelist: [/^vuetify/]
+          })
+        ]
       }
     }
   },
