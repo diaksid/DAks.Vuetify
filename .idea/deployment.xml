@@ -14,6 +14,10 @@
           <mappings>
             <mapping deploy="/vue" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath path="/vue/yarn.lock" />
+            <excludedPath path="/vue/static/sw.js" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="IHOR CCK vps">
